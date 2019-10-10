@@ -22,6 +22,6 @@ float gpf(string prompt)
     {
         f = get_float("%s",prompt);
     }
-    while (f<0.01);
+    while (f<0);
     return f;
 }
