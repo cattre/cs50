@@ -22,12 +22,12 @@ int main(void)
             }
             else
             {
-                printf("INVALID1\n");
+                printf("INVALID\n");
             }
         }
         else
         {
-            printf("INVALID2\n");
+            printf("INVALID\n");
         }
 
 }
