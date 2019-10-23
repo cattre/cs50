@@ -34,7 +34,7 @@ int main(void)
 
 string check_cc_type(void)
 {
-    cc = get_long("");
+    cc = get_long("Number: ");
     int ax  = cc/10000000000000; //convert AMEX to 2 digits from 15
     int mc  = cc/100000000000000; // convert MASTERCARD to 2 digits from 16
     int vs1 = cc/1000000000000; // convert VISA to 1 digit from 13
