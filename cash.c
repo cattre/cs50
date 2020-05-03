@@ -5,8 +5,12 @@
 
 int main(void)
 {
+    float dollars=-1;
     // Prompts user for change needed
-    float dollars = get_float("Change owed: ");
+    while(dollars < 0)
+    {
+        dollars = get_float("Change owed: ");
+    }
     int cents = round(dollars * 100);
     // Gets number of quarters
     int coins = cents / 25;
