@@ -65,7 +65,7 @@ string get_card_type(long cardNo)
              || cardNo / mc_len == 53 || cardNo / mc_len == 54
              || cardNo / mc_len == 55)
     {
-        type = "MasterCard";
+        type = "MASTERCARD";
     }
     // Checks for 13 or 16 digit numbers starting 4
     else if (cardNo / v_len1 == 4 || cardNo / v_len2 == 4)
