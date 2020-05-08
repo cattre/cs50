@@ -4,9 +4,9 @@
 #include <math.h>
 
 void count(string text);
-float LETTERS=0;
-float WORDS=0;
-float SENTENCES=0;
+float LETTERS = 0;
+float WORDS = 0;
+float SENTENCES = 0;
 
 int main(void)
 {
@@ -15,8 +15,11 @@ int main(void)
     float l;
     string text = get_string("Text: ");
     count(text);
+    // Calculates letters per 100 words
     l = (LETTERS / WORDS) * 100;
+    // Calculates sentences per 100 words
     s = (SENTENCES / WORDS) * 100;
+    // Coleman-Liau index calculation
     index = round(0.0588 * l - 0.296 * s - 15.8);
     if (index < 1)
     {
@@ -32,24 +35,30 @@ int main(void)
     }
 }
 
+// Counts letters, words and sentences from text input
 void count(string text)
 {
-    for (int i=0, j=strlen(text); i<j; i++)
+    // Iterates through characters in string
+    for (int i = 0, j = strlen(text); i < j; i++)
     {
+        // Increases letter count if character is a letter
         if (text[i] >= 'A' && text[i] <= 'z')
         {
             LETTERS++;
         }
+        // Increases word count if character is a space
         if (text[i] == ' ')
         {
             WORDS++;
         }
+        // Increases sentence count if character is end punctation
         if (text[i] == '.' || text[i] == '!' || text[i] == '?')
         {
             SENTENCES++;
         }
     }
-    if (LETTERS>0)
+    // Increases word count by 1 to count final word
+    if (LETTERS > 0)
     {
         WORDS++;
     }
