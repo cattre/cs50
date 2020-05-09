@@ -2,12 +2,13 @@
 #include <cs50.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 void encrypt_text(int key, string text);
 
 int main(int argc, string argv[])
 {
-    if (argc < 2)
+    if (argc != 2)
     {
         printf("Usage ./caesar key\n");
     }
@@ -16,9 +17,9 @@ int main(int argc, string argv[])
         // Converts second argument to integer
         int key = atoi (argv[1]);
         // Checks that key is numeric and greater than 0
-        if (key < 1)
+        if (isdigit(key) == false)
         {
-            printf("Usage: ./caesar key");
+            printf("Usage: ./caesar key\n");
         }
         else
         {
