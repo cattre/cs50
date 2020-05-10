@@ -31,11 +31,10 @@ int main(int argc, string argv[])
 // Checks for valid key
 int check_key(string key)
 {
-    int sum = 0;
-    int alphasum = 0;
+    int keylen = strlen(key);
 
     // Iterates through characters in key
-    for (int i = 0, j = strlen(key); i < j; i++)
+    for (int i = 0; i < keylen; i++)
     {
         char kchar = key[i];
 
@@ -46,8 +45,22 @@ int check_key(string key)
         return 1;
         }
 
-        // Adds chars together
-        sum = sum + toupper(kchar);
+        // Checks characters only used once
+        for (int j = 0; j <= keylen; j++)
+        {
+            char kchar2 = key[j];
+            int count = 0;
+
+            if (kchar == kchar2)
+            {
+                count++;
+                if (count > 1)
+                {
+                    printf("Characters used more than once in key\n");
+                    return 1;
+                }
+            }
+        }
     }
 
     // Checks that key is 26 characters
@@ -57,16 +70,6 @@ int check_key(string key)
         return 1;
     }
 
-    // Checks characters only used once
-    for (int i = 'A'; i <= 'Z'; i++)
-    {
-        alphasum = alphasum + i;
-    }
-    if (sum != alphasum)
-    {
-        printf("Characters used more than once in key\n");
-        return 1;
-    }
     return 0;
 }
 
