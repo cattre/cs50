@@ -10,22 +10,25 @@ int main(int argc, string argv[])
 {
     if (argc != 2)
     {
-        printf("Usage ./caesar key\n");
+        printf("Usage ./caesar key1\n");
     }
     else
     {
         // Converts second argument to integer
-        int key = atoi (argv[1]);
+        int keynum = atoi(argv[1]);
+
         // Checks that key is numeric and greater than 0
-        if (isdigit(key) == false)
+        string key = argv[1];
+        for (int i = 0, j = strlen(key); i < j; i++)
         {
-            printf("Usage: ./caesar key\n");
+            if (isdigit(key[i]) == false)
+            {
+                printf("Usage: ./caesar key2\n");
+                return 1;
+            }
         }
-        else
-        {
-            string plaintext = get_string("plaintext: ");
-            encrypt_text(key, plaintext);
-        }
+        string plaintext = get_string("plaintext: ");
+        encrypt_text(keynum, plaintext);
     }
 }
 
@@ -37,9 +40,9 @@ void encrypt_text(int key, string text)
         char c = text[i];
         if (c >= 'A' && c <= 'Z')
         {
-            if ((c + key) / 'Z' > 0)
+            if ((c + key) > 'Z')
             {
-                c = ((c + key) % 'Z') + 'A' - 1;
+                c = ((c + key - 'Z') % 26) + 'A' - 1;
             }
             else
             {
@@ -48,9 +51,9 @@ void encrypt_text(int key, string text)
         }
         else if (c >= 'a' && c <= 'z')
         {
-            if ((c + key) / 'z' > 0)
+            if ((c + key) > 'z')
             {
-                c = ((c + key) % 'z') + 'a' - 1;
+                c = ((c + key - 'z') % 26) + 'a' - 1;
             }
             else
             {
