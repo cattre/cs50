@@ -28,17 +28,21 @@ int main(int argc, string argv[])
                 return 1;
             }
         }
+        // Prompts user for plaintext
         string plaintext = get_string("plaintext: ");
         encrypt_text(keynum, plaintext);
     }
 }
 
+// Encrypts plaintext input and prints ciphertext
 void encrypt_text(int key, string text)
 {
     printf("ciphertext: ");
+    // Iterates through characters in string
     for (int i = 0, j = strlen(text); i < j; i++)
     {
         char c = text[i];
+        // Checks for uppercase characters
         if (c >= 'A' && c <= 'Z')
         {
             if ((c + key) > 'Z')
@@ -50,6 +54,7 @@ void encrypt_text(int key, string text)
                 c = (c + key);
             }
         }
+        // Checks for lowercase characters
         else if (c >= 'a' && c <= 'z')
         {
             if ((c + key) > 'z')
