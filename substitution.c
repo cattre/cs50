@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+int check_key(string key);
 void encrypt_text(string key, string text);
 
 int main(int argc, string argv[])
@@ -11,28 +12,62 @@ int main(int argc, string argv[])
     // Checks that a single key has been provided
     if (argc != 2)
     {
-        printf("Usage: ./substitution key\n");
+        printf("Single key not provided\n");
         return 1;
     }
+
     string key = argv[1];
+    int check = check_key(key);
+    if (check == 1)
+    {
+        return 1;
+    }
+
+    // Prompts user for plaintext
+    string plaintext = get_string("plaintext: ");
+    encrypt_text(key, plaintext);
+}
+
+// Checks for valid key
+int check_key(string key)
+{
+    int sum = 0;
+    int alphasum = 0;
+
+    // Iterates through characters in key
+    for (int i = 0, j = strlen(key); i < j; i++)
+    {
+        char kchar = key[i];
+
+        // Checks character is alphabetic
+        if (!isalpha(kchar))
+        {
+        printf("Key is not alphabetic\n");
+        return 1;
+        }
+
+        // Adds chars together
+        sum = sum + toupper(kchar);
+    }
+
     // Checks that key is 26 characters
     if (strlen(key) != 26)
     {
         printf("Key must contain 26 characters.\n");
         return 1;
     }
-    // Iterates through characters in key to check all are alphabetic
-    for (int i = 0, j = strlen(key); i < j; i++)
+
+    // Checks characters only used once
+    for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (!isalpha(key[i]))
-        {
-        printf("Usage: ./substitution key\n");
-        return 1;
-        }
+        alphasum = alphasum + i;
     }
-    // Prompts user for plaintext
-    string plaintext = get_string("plaintext: ");
-    encrypt_text(key, plaintext);
+    if (sum != alphasum)
+    {
+        printf("Characters used more than once in key\n");
+        return 1;
+    }
+    return 0;
 }
 
 // Encrypts plaintext using key and prints ciphertext
