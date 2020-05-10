@@ -41,8 +41,8 @@ int check_key(string key)
         // Checks character is alphabetic
         if (!isalpha(kchar))
         {
-        printf("Key is not alphabetic\n");
-        return 1;
+            printf("Key is not alphabetic\n");
+            return 1;
         }
 
         // Checks characters only used once
