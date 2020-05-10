@@ -46,12 +46,12 @@ int check_key(string key)
         }
 
         // Checks characters only used once
-        for (int j = 0; j <= keylen; j++)
+        int count = 0;
+        for (int j = 0; j < keylen; j++)
         {
             char kchar2 = key[j];
-            int count = 0;
 
-            if (kchar == kchar2)
+            if (toupper(kchar) == toupper(kchar2))
             {
                 count++;
                 if (count > 1)
