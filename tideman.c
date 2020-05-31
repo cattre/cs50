@@ -189,6 +189,7 @@ void lock_pairs(void)
         if (!is_winner)
         {
             locked[pairs[i].winner][pairs[i].loser] = true;
+            printf("locked winner: %i locked loser: %i\n", pairs[i].winner, pairs[i].loser);
         }
     }
     return;
