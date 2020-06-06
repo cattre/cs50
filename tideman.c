@@ -33,6 +33,7 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
+bool iterate(int i, int current_winner, int current_loser);
 
 int main(int argc, string argv[])
 {
@@ -67,24 +68,16 @@ int main(int argc, string argv[])
     pair_count = 0;
     int voter_count = get_int("Number of voters: ");
 /*
-int ranks[9][3] =
+int ranks[9][7] =
 {
-    {0,1,2},
-    {0,1,2},
-    {0,1,2},
-    {1,2,0},
-    {1,2,0},
-    {1,2,0},
-    {2,0,1},
-    {2,0,1},
-    {2,0,1}
+{0,1,2,3,4,5,6},{0,1,2,3,4,5,6},{3,4,5,6,0,1,2},{3,4,5,6,0,1,2},{5,6,0,2,1,4,3},{5,6,0,2,1,4,3},{4,6,5,3,2,0,1},{4,6,5,3,2,0,1},{5,6,4,0,3,1,2}
 };
 */
     // Query for votes
     for (int i = 0; i < voter_count; i++)
     {
         // ranks[i] is voter's ith preference
-        
+
         int ranks[candidate_count];
 
         // Query for each rank
@@ -101,9 +94,9 @@ int ranks[9][3] =
 
         record_preferences(ranks);
 
-//        record_preferences(ranks[i]); // temp
-
         printf("\n");
+
+//        record_preferences(ranks[i]); // temp
     }
 
 
@@ -168,6 +161,10 @@ void add_pairs(void)
             }
         }
     }
+    for (int i = 0; i < pair_count; i++)
+    {
+//        printf("pair %i: %i:%i\n", i, pairs[i].winner, pairs[i].loser);
+    }
     return;
 }
 
@@ -180,8 +177,27 @@ void sort_pairs(void)
     {
         for (int j = i + 1; j < pair_count; j++)
         {
-            if (preferences[pairs[j].winner][pairs[j].loser] >
-            preferences[pairs[i].winner][pairs[i].loser])
+//            printf("j: %i\n", j);
+            if (
+                (
+                    preferences[pairs[j].winner][pairs[j].loser] >
+                    preferences[pairs[i].winner][pairs[i].loser]
+                )
+                || // Checks for correct order if preferences are equal
+                (
+                    preferences[pairs[j].winner][pairs[j].loser] ==
+                    preferences[pairs[i].winner][pairs[i].loser]
+                    &&
+                    (
+                        pairs[j].winner < pairs[i].winner
+                        ||
+                        (
+                            pairs[i].winner == pairs[j].winner
+                            && pairs[j].loser < pairs[i].loser
+                        )
+                    )
+                )
+            )
             {
                 temp_pair = pairs[i];
                 pairs[i] = pairs[j];
@@ -191,7 +207,32 @@ void sort_pairs(void)
 //            printf("sorted pairs %i: %i:%i\n", i, pairs[i].winner,pairs[i].loser);
         }
     }
+/*
+    for (int i = 0; i < pair_count; i++)
+    {
+        printf("sorted pair %i: %i:%i\n", i, pairs[i].winner, pairs[i].loser);
+    }
+*/
     return;
+}
+
+// Iterates through previous locked pairs to check for cycles
+bool iterate(int i, int current_winner, int current_loser)
+{
+    for (int k = i - 1; k >= 0; k--)
+    {
+//        printf("k: %i\n", k);
+        if (pairs[k].loser == current_winner && pairs[k].winner == current_loser)
+        {
+            return true;
+//            printf("true\n");
+        }
+        else
+        {
+            iterate(k, pairs[k].winner, pairs[k].loser);
+        }
+    }
+    return false;
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
@@ -200,32 +241,32 @@ void lock_pairs(void)
     for (int i = 0; i < pair_count; i++)
     {
 //        printf("i: %i\n", i);
-        bool is_winner = false;
+        bool is_winner;
 
         for (int j = i - 1; j >= 0; j--)
         {
 //            printf("j: %i\n", j);
 //            printf("%i winner: %i, %i loser: %i\n", i, pairs[i].loser, j, pairs[j].winner);
+
             if (pairs[i].loser == pairs[j].winner)
             {
+                is_winner = iterate(i, pairs[i].winner, pairs[i].loser);
 //                printf("match\n");
-                for (int k = j - 1; k >= 0; k--)
-                {
-//                    printf("k: %i\n", k);
-                    if (pairs[k].loser == pairs[i].winner)
-                    {
-                        is_winner = true;
-//                        printf("true\n");
-                    }
-                }
             }
         }
         if (!is_winner)
         {
             locked[pairs[i].winner][pairs[i].loser] = true;
-//            printf("locked winner: %i locked loser: %i\n", pairs[i].winner, pairs[i].loser);
+//            printf("locked pair %i winner: %i loser: %i\n", i, pairs[i].winner, pairs[i].loser);
         }
     }
+/*
+    for (int i = 0; i < pair_count; i++)
+    {
+        if (locked[pairs[i].winner][pairs[i].loser] == true)
+        printf("locked pair %i: %i:%i\n", i, pairs[i].winner, pairs[i].loser);
+    }
+*/
     return;
 }
 
@@ -237,7 +278,7 @@ void print_winner(void)
     for (int i = 0; i < candidate_count; i++)
     {
         bool is_loser = false;
-        
+
         for (int j = 0; j < pair_count;  j++)
         {
 //            printf("pair %i locked: %d\n", j, locked[pairs[j].winner][pairs[j].loser]);
