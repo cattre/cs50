@@ -74,7 +74,7 @@ int ranks[9][3] =
     {0,1,2},
     {1,2,0},
     {1,2,0},
-    {2,0,1},
+    {1,2,0},
     {2,0,1},
     {2,0,1},
     {2,0,1}
@@ -84,7 +84,7 @@ int ranks[9][3] =
     for (int i = 0; i < voter_count; i++)
     {
         // ranks[i] is voter's ith preference
-
+        
         int ranks[candidate_count];
 
         // Query for each rank
