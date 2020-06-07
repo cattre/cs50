@@ -70,14 +70,14 @@ int main(int argc, string argv[])
 /*
 int ranks[9][7] =
 {
-{0,1,2,3,4,5,6},{0,1,2,3,4,5,6},{3,4,5,6,0,1,2},{3,4,5,6,0,1,2},{5,6,0,2,1,4,3},{5,6,0,2,1,4,3},{4,6,5,3,2,0,1},{4,6,5,3,2,0,1},{5,6,4,0,3,1,2}
+{0,1,2,3,4,5,6},{0,1,2,3,4,5,6},{3,4,5,6,0,1,2},{3,4,5,6,0,1,2},{2,3,5,6,0,1,4},{5,6,0,2,1,4,3},{3,2,4,6,5,0,1},{2,3,4,6,5,0,1},{3,2,5,6,4,0,1}
 };
 */
     // Query for votes
     for (int i = 0; i < voter_count; i++)
     {
         // ranks[i] is voter's ith preference
-
+///*
         int ranks[candidate_count];
 
         // Query for each rank
@@ -95,8 +95,8 @@ int ranks[9][7] =
         record_preferences(ranks);
 
         printf("\n");
-
-//        record_preferences(ranks[i]); // temp
+//*/
+//       record_preferences(ranks[i]); // temp
     }
 
 
@@ -210,7 +210,7 @@ void sort_pairs(void)
 /*
     for (int i = 0; i < pair_count; i++)
     {
-        printf("sorted pair %i: %i:%i\n", i, pairs[i].winner, pairs[i].loser);
+        printf("sorted pair %i: %i:%i = %i\n", i, pairs[i].winner, pairs[i].loser, preferences[pairs[i].winner][pairs[i].loser]);
     }
 */
     return;
@@ -219,20 +219,29 @@ void sort_pairs(void)
 // Iterates through previous locked pairs to check for cycles
 bool iterate(int i, int current_winner, int current_loser)
 {
+    bool is_winner = false;
+
     for (int k = i - 1; k >= 0; k--)
     {
-//        printf("k: %i\n", k);
-        if (pairs[k].loser == current_winner && pairs[k].winner == current_loser)
+//        printf("k: %i, current_winner: %i, pairs[k].loser: %i, current_loser: %i\n", k, current_winner, pairs[k].loser, current_loser);
+        // Check if current winner is a previous loser of a locked pair
+        if (locked[pairs[k].winner][pairs[k].loser] == true
+            && current_winner == pairs[k].loser)
         {
-            return true;
-//            printf("true\n");
-        }
-        else
-        {
-            iterate(k, pairs[k].winner, pairs[k].loser);
+            // Check if previous winner equals current loser
+            if (pairs[k].winner == current_loser)
+            {
+//                printf("true\n");
+                is_winner = true;
+                return is_winner;
+            }
+            else
+            {
+                is_winner = iterate(i, pairs[k].winner, current_loser);
+            }
         }
     }
-    return false;
+    return is_winner;
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
@@ -241,17 +250,23 @@ void lock_pairs(void)
     for (int i = 0; i < pair_count; i++)
     {
 //        printf("i: %i\n", i);
-        bool is_winner;
+        bool is_winner = false;
 
         for (int j = i - 1; j >= 0; j--)
         {
 //            printf("j: %i\n", j);
 //            printf("%i winner: %i, %i loser: %i\n", i, pairs[i].loser, j, pairs[j].winner);
 
-            if (pairs[i].loser == pairs[j].winner)
+            // Check if current loser is a previous winner of a locked pair
+            if (locked[pairs[j].winner][pairs[j].loser] == true
+                && pairs[i].loser == pairs[j].winner)
             {
                 is_winner = iterate(i, pairs[i].winner, pairs[i].loser);
-//                printf("match\n");
+                if (is_winner)
+                {
+//                    printf("match\n");
+                    break;
+                }
             }
         }
         if (!is_winner)
