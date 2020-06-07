@@ -71,8 +71,6 @@ int main(int argc, string argv[])
 int ranks[8][7] =
 {
 {0,1,2,3,4,5,6},{0,1,2,3,4,5,6},{3,4,5,6,0,1,2},{3,4,5,6,0,1,2},{2,3,5,6,0,1,4},{5,6,0,2,1,4,3},{3,2,4,6,5,0,1},{3,2,4,6,5,0,1},
-
-
 };
 */
     // Query for votes
@@ -312,10 +310,9 @@ void print_winner(void)
                 break;
             }
         }
-        if (is_loser == false)
+        if (!is_loser)
         {
             printf("%s\n", candidates[i]);
-            return;
         }
     }
     return;
