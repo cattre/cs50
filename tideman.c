@@ -134,12 +134,14 @@ void add_pairs(void)
     {
         for (int j = i + 1; j < candidate_count; j++)
         {
+            // Checks if current candidate preferred over subsequent candidate
             if (preferences[i][j] > preferences[j][i])
             {
                 pairs[pair_count].winner = i;
                 pairs[pair_count].loser = j;
                 pair_count++;
             }
+            // Checks if subsequent candidate preferred over current candidate
             else if (preferences[j][i] > preferences[i][j])
             {
                 pairs[pair_count].winner = j;
@@ -161,11 +163,12 @@ void sort_pairs(void)
         for (int j = i + 1; j < pair_count; j++)
         {
             if (
+                // Checks if subsequent pair has stronger victory than current
                 (
                     preferences[pairs[j].winner][pairs[j].loser] >
                     preferences[pairs[i].winner][pairs[i].loser]
                 )
-                || // Checks for correct order if preferences are equal
+                || // Checks for correct order if preferences are equal (not strictly needed)
                 (
                     preferences[pairs[j].winner][pairs[j].loser] ==
                     preferences[pairs[i].winner][pairs[i].loser]
@@ -209,6 +212,7 @@ bool iterate(int i, int current_winner, int current_loser)
             }
             else
             {
+                // Calls itself to repeat iteration using new pair winner
                 is_winner = iterate(i, pairs[k].winner, current_loser);
                 if (is_winner == true)
                 {
@@ -233,6 +237,7 @@ void lock_pairs(void)
             if (locked[pairs[j].winner][pairs[j].loser] == true
                 && pairs[i].loser == pairs[j].winner)
             {
+                // Calls iterate function to check for cycles
                 is_winner = iterate(i, pairs[i].winner, pairs[i].loser);
                 if (is_winner)
                 {
@@ -242,6 +247,7 @@ void lock_pairs(void)
         }
         if (!is_winner)
         {
+            // Locks pair if loser if no cycles
             locked[pairs[i].winner][pairs[i].loser] = true;
         }
     }
@@ -257,6 +263,7 @@ void print_winner(void)
 
         for (int j = 0; j < pair_count;  j++)
         {
+            // Checks if current candidate is a loser of a locked pair
             if (locked[pairs[j].winner][pairs[j].loser] == true
                 && pairs[j].loser == i)
             {
