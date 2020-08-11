@@ -13,10 +13,10 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0; j < width; j++)
         {
             // Get average of pixel colours
-            shade = round(image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / 3.0;
-            image[i][j].rgbtRed = shade;
-            image[i][j].rgbtGreen = shade;
-            image[i][j].rgbtBlue = shade;
+            shade = (image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / 3.0;
+            image[i][j].rgbtRed = round(shade);
+            image[i][j].rgbtGreen = round(shade);
+            image[i][j].rgbtBlue = round(shade);
         }
     }
     return;
@@ -107,7 +107,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 for (int l = j - 1; l < j + 2; l++)
                 {
                     // Check if pixel within range
-                    if (k >0 && k <= height - 1 && l > 0 && l <= width - 1)
+                    if (k > 0 && k <= height && l > 0 && l <= width)
                     {
                         // Sum colour values
                         blurRed = blurRed + image[k][l].rgbtRed;
