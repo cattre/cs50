@@ -13,10 +13,10 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0; j < width; j++)
         {
             // Get average of pixel colours
-            shade = (image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / 3.000;
-            image[i][j].rgbtRed = ceil(shade);
-            image[i][j].rgbtGreen = ceil(shade);
-            image[i][j].rgbtBlue = ceil(shade);
+            shade = (image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / 3.0;
+            image[i][j].rgbtRed = round(shade);
+            image[i][j].rgbtGreen = round(shade);
+            image[i][j].rgbtBlue = round(shade);
         }
     }
     return;
