@@ -101,13 +101,13 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             int pixelCount = 0;
 
             // Iterate through rows above and below current pixel
-            for (int k = i - 1; k < i + 2; k++)
+            for (int k = i - 1; k <= i + 1; k++)
             {
                 // Iterate through columns to left and right of current pixel
-                for (int l = j - 1; l < j + 2; l++)
+                for (int l = j - 1; l <= j + 1; l++)
                 {
                     // Check if pixel within range
-                    if (k > 0 && k <= height && l > 0 && l <= width)
+                    if (k >= 0 && k < height && l >= 0 && l < width)
                     {
                         // Sum colour values
                         blurRed = blurRed + image[k][l].rgbtRed;
