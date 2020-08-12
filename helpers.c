@@ -89,6 +89,8 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE tempImage[height][width];
+    
     // Iterate through rows
     for (int i = 0; i < height; i++)
     {
@@ -118,9 +120,21 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 }
             }
             // Get average for colour values
-            image[i][j].rgbtRed = round(blurRed / pixelCount);
-            image[i][j].rgbtGreen = round(blurGreen / pixelCount);
-            image[i][j].rgbtBlue = round(blurBlue / pixelCount);
+            tempImage[i][j].rgbtRed = round(blurRed / pixelCount);
+            tempImage[i][j].rgbtGreen = round(blurGreen / pixelCount);
+            tempImage[i][j].rgbtBlue = round(blurBlue / pixelCount);
+        }
+    }
+    
+    // Iterate through rows
+    for (int i = 0; i < height; i++)
+    {
+        // Iterate through columns
+        for (int j = 0; j < width; j++)
+        {
+            image[i][j].rgbtRed = tempImage[i][j].rgbtRed;
+            image[i][j].rgbtGreen = tempImage[i][j].rgbtGreen;
+            image[i][j].rgbtBlue = tempImage[i][j].rgbtBlue;
         }
     }
     return;
