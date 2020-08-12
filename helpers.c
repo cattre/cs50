@@ -119,12 +119,14 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     }
                 }
             }
-            // Get average for colour values
+            // Get average for colour values and store in temp image
             tempImage[i][j].rgbtRed = round(blurRed / pixelCount);
             tempImage[i][j].rgbtGreen = round(blurGreen / pixelCount);
             tempImage[i][j].rgbtBlue = round(blurBlue / pixelCount);
         }
     }
+    
+    // Copy temp image back to main one
     
     // Iterate through rows
     for (int i = 0; i < height; i++)
