@@ -46,21 +46,25 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
                 image[i][j].rgbtRed = 255;
             }
             else
+            {
                 image[i][j].rgbtRed = sepiaRed;
-
+            }
             if (sepiaGreen > 255)
             {
                 image[i][j].rgbtGreen = 255;
             }
             else
+            {
                 image[i][j].rgbtGreen = sepiaGreen;
-
+            }
             if (sepiaBlue > 255)
             {
                 image[i][j].rgbtBlue = 255;
             }
             else
+            {
                 image[i][j].rgbtBlue = sepiaBlue;
+            }
         }
     }
     return;
@@ -75,7 +79,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     for (int i = 0; i < height; i++)
     {
         // Iterate through columns until middle of image
-        for (int j = 0; j < width/2; j++)
+        for (int j = 0; j < width / 2; j++)
         {
             // Swap pixels with opposite position
             temp = image[i][j];
