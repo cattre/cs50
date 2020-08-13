@@ -30,7 +30,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     for (int i = 0; i < height; i++)
     {
         // Iterate through columns until middle of image
-        for (int j = 0; j < width/2; j++)
+        for (int j = 0; j < width / 2; j++)
         {
             // Swap pixels with opposite position
             temp = image[i][j];
@@ -100,8 +100,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
-    int GxKernel[3][3] = {{-1,0,1},{-2,0,2},{-1,0,1}}; // Gx kernel array
-    int GyKernel[3][3] = {{-1,-2,-1},{0,0,0},{1,2,1}}; // Gy kernel array
+    int GxKernel[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}; // Gx kernel array
+    int GyKernel[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}}; // Gy kernel array
 
     RGBTRIPLE tempImage[height][width];
 
@@ -143,9 +143,9 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 }
             }
             // Get average for colour values and store in temp image
-            tempImage[i][j].rgbtRed = fminf(round(sqrt(pow(GxRed,2) + pow(GyRed,2))),255);
-            tempImage[i][j].rgbtGreen = fminf(round(sqrt(pow(GxGreen,2) + pow(GyGreen,2))),255);
-            tempImage[i][j].rgbtBlue = fminf(round(sqrt(pow(GxBlue,2) + pow(GyBlue,2))),255);
+            tempImage[i][j].rgbtRed = fminf(round(sqrt(pow(GxRed, 2) + pow(GyRed, 2))), 255);
+            tempImage[i][j].rgbtGreen = fminf(round(sqrt(pow(GxGreen, 2) + pow(GyGreen, 2))), 255);
+            tempImage[i][j].rgbtBlue = fminf(round(sqrt(pow(GxBlue, 2) + pow(GyBlue, 2))), 255);
         }
     }
 
