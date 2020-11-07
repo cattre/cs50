@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         }
 
         // Read 512 bytes from file
-        fread(bytes, 512, 1, rawfile);
+        fread(bytes, sizeof(bytes), 1, rawfile);
 
         // Check if start of new jpg
         if (bytes[0] == 0xff &&
@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
             // Check if first jpg
             if (filecount == 0)
             {
-                // strcpy(filename, "000.jpg");
                 // Update filename
                 sprintf(filename, "000.jpg");
 
@@ -54,7 +53,6 @@ int main(int argc, char *argv[])
                 newfile = fopen(filename, "w");
 
                 // Print bytes to file
-                // fprintf(newfile, "%s", bytes);
                 fwrite(bytes, sizeof(bytes), 1, newfile);
 
                 // Close file
@@ -62,7 +60,6 @@ int main(int argc, char *argv[])
 
                 // Increment filecount
                 filecount++;
-                // printf("one");
             }
             else
             {
@@ -80,7 +77,6 @@ int main(int argc, char *argv[])
 
                 // Increment filecount
                 filecount++;
-                // printf("two");
             }
         }
         // If not at the start of a file
@@ -94,7 +90,7 @@ int main(int argc, char *argv[])
     
                 // Print bytes to file
                 fwrite(bytes, sizeof(bytes), 1, newfile);
-                // printf("yay\n");
+                
                 // Close file
                 fclose(newfile);
             }
