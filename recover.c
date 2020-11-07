@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         }
 
         // Read 512 bytes from file
-        fread(bytes, sizeof(bytes), 1, rawfile);
+        int numbytes = fread(bytes, sizeof(char), 512, rawfile);
 
         // Check if start of new jpg
         if (bytes[0] == 0xff &&
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
                 newfile = fopen(filename, "w");
 
                 // Print bytes to file
-                fwrite(bytes, sizeof(bytes), 1, newfile);
+                fwrite(bytes, sizeof(char), 512, newfile);
 
                 // Close file
                 fclose(newfile);
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
                 newfile = fopen(filename, "w");
 
                 // Print bytes to file
-                fwrite(bytes, sizeof(bytes), 1, newfile);
+                fwrite(bytes, sizeof(char), 512, newfile);
 
                 // Close file
                 fclose(newfile);
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
                 newfile = fopen(filename, "a");
     
                 // Print bytes to file
-                fwrite(bytes, sizeof(bytes), 1, newfile);
+                fwrite(bytes, sizeof(char), numbytes, newfile);
                 
                 // Close file
                 fclose(newfile);
