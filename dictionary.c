@@ -59,6 +59,7 @@ bool load(const char *dictionary)
                 {
                     return false;
                 }
+                n->next = NULL;
 
                 // Apply hash function
                 int index = hash(word);
@@ -200,7 +201,7 @@ bool unload(void)
     {
         // Assign node to current table index
         node *n = table[i];
-        
+
         while (true)
         {
             if (n == NULL)
