@@ -124,7 +124,8 @@ unsigned int hash(const char *word)
         hashResult += word[i] * (i + 1);
     }
 
-    if (hashResult > N) {
+    if (hashResult > N)
+    {
         hashResult %= N;
     }
 
@@ -172,12 +173,12 @@ bool check(const char *word)
     while (tmp != NULL)
     {
         // Check if word found at location
-        if (!strcmp(tmp->word,lowercase))
+        if (!strcmp(tmp->word, lowercase))
         {
             return true;
         }
+        // Go to next location
         else
-        // Got to next location
         {
             tmp = tmp->next;
         }
