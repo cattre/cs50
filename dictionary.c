@@ -143,12 +143,8 @@ unsigned int size(void)
         {
             count++;
             node *tmp = table[i];
-            while (true)
+            while (tmp->next != NULL)
             {
-                if (tmp->next == NULL)
-                {
-                    break;
-                }
                 count++;
                 tmp = tmp->next;
             }
@@ -173,12 +169,8 @@ bool check(const char *word)
     int index = hash(lowercase);
     node *tmp = table[index];
 
-    while (true)
+    while (tmp != NULL)
     {
-        if (tmp == NULL)
-        {
-            break;
-        }
         // Check if word found at location
         if (!strcmp(tmp->word,lowercase))
         {
@@ -202,12 +194,8 @@ bool unload(void)
         // Assign node to current table index
         node *n = table[i];
 
-        while (true)
+        while (n != NULL)
         {
-            if (n == NULL)
-            {
-                break;
-            }
             node *tmp = n->next;
             // Free previous node
             free(n);
