@@ -117,6 +117,7 @@ unsigned int hash(const char *word)
 {
     int hashResult = 0;
 
+    // Iterate through letters
     for (int i = 0; word[i] != '\0'; i++)
     {
         hashResult += word[i] * (i + 1);
@@ -167,14 +168,15 @@ bool check(const char *word)
     int index = hash(lowercase);
     node *tmp = table[index];
 
-    // Check if word found at location
     while (tmp != NULL)
     {
+        // Check if word found at location
         if (!strcmp(tmp->word,lowercase))
         {
             return true;
         }
         else
+        // Got to next location
         {
             tmp = tmp->next;
         }
@@ -185,23 +187,19 @@ bool check(const char *word)
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    node *n;
-    node *tmp;
 
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i <= N; i++)
     {
         // Assign node to current table index
-        if (table[i] != NULL)
+        node *n = table[i];
+        
+        while (n != NULL)
         {
-            tmp = table[i];
-            while (tmp != NULL)
-            {
-                n = tmp;
-                // Free previous node
-                free(n);
-                // Assign next address to n
-                tmp = tmp->next;
-            }
+            node *tmp = n->next;
+            // Free previous node
+            free(n);
+            // Assign next address to n
+            n = tmp;
         }
     }
     return true;
